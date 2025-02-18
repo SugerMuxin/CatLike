@@ -1,0 +1,6 @@
+#忽略文件目录
+/Library
+/logs
+/obj
+/.vs
+*.txt
