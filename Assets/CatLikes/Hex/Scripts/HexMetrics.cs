@@ -19,6 +19,13 @@ public static class HexMetrics
     public const float horizontalTerraceStepSize = 1f / terraceSteps;//横向阶面所占比例//
 
     public const float verticalTerraceStepSize = 1f / (terracesPerSlope + 1);//纵向阶面所占比例//
+
+    public static Texture2D noiseSource;
+
+    public const float cellPerturbStrength = 3f;
+
+    public const float noiseScale = 0.003f; //这个参数是为了让每个Cell传入的坐标匹配到UV，从而让噪声的影响连贯//
+
     //       ·①&⑥
     //    ·⑥   ·②
     //    ·⑤   ·③
@@ -86,6 +93,10 @@ public static class HexMetrics
             return HexEdgeType.Slope;
         }
         return HexEdgeType.Cliff;
+    }
+
+    public static Vector4 SampleNoise(Vector3 position) {
+        return noiseSource.GetPixelBilinear(position.x * noiseScale, position.z * noiseScale);
     }
 
 }

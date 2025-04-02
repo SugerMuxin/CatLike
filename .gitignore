@@ -3,4 +3,5 @@
 /logs
 /obj
 /.vs
+/Temp
 *.txt

@@ -21,8 +21,11 @@ public class HexGrid : MonoBehaviour
 
     HexCell[] cells;
 
+    public Texture2D noiseSource;
+
     private void Awake()
     {
+        HexMetrics.noiseSource = noiseSource;
         gridCanvas = GetComponentInChildren<Canvas>();
         hexMesh = GetComponentInChildren<HexMesh>();
         meshCollider = gameObject.AddComponent<MeshCollider>();
@@ -35,6 +38,11 @@ public class HexGrid : MonoBehaviour
                 CreateCell(x,z,i++);
             }
         }
+    }
+
+    private void OnEnable()
+    {
+        HexMetrics.noiseSource = noiseSource;
     }
 
     private void Start()
