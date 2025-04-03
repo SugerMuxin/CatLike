@@ -2,6 +2,8 @@ using UnityEngine;
 
 public static class HexMetrics 
 {
+    public const int chunkSizeX = 5, chunkSizeZ = 5;
+
     public const float solidFactor = 0.75f;
 
     public const float blendFactor = 1.0f - solidFactor;

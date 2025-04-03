@@ -20,6 +20,7 @@ public class HexMapEditor : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {   int colorIndex = Random.Range(0, colors.Length);
+            //colorIndex = group.ActiveToggles
             //group.ActiveToggles
             SelectColor(colorIndex);
             SetElevation(slider.value);
@@ -50,6 +51,7 @@ public class HexMapEditor : MonoBehaviour
     void EditCell(HexCell cell) {
         cell.color = activeColor;
         cell.Elevation = activeElevation;
-        hexGrid.Refresh();
+        //hexGrid.Refresh();
     }
+
 }

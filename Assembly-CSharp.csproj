@@ -66,6 +66,7 @@
     <Compile Include="Assets\CatLikes\Hex\Scripts\HexGrid.cs" />
     <Compile Include="Assets\CatLikes\Hex\Scripts\HexMetrics.cs" />
     <Compile Include="Assets\CatLikes\Hex\Scripts\HexCoordinatesDrawer.cs" />
+    <Compile Include="Assets\CatLikes\Hex\Scripts\HexGridChunk.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
@@ -77,6 +78,7 @@
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
     <None Include="Assets\ResDepends\default\Battle\Particle_HJ\Shaders\LS_Shader\lsUVAdd003.shader" />
     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
+    <None Include="Assets\CatLikes\Hex\Record.txt" />
     <None Include="Assets\ResDepends\default\Battle\Particle_HJ\Shaders\WGame Particle_Alpha Blended.shader" />
     <None Include="Assets\ResDepends\default\Battle\Particle_HJ\Shaders\LS_Shader\lsniuqu.shader" />
     <None Include="Assets\ResDepends\default\Shaders\Particle Add 1.shader" />
