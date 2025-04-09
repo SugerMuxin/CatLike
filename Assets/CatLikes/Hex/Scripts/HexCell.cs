@@ -2,30 +2,38 @@
 using UnityEngine;
 
 [System.Serializable]
-public struct HexCoordinates {
+public struct HexCoordinates
+{
     [SerializeField]
     private int x, z;
 
-    public int X { 
-        get {
+    public int X
+    {
+        get
+        {
             return x;
-        } 
+        }
     }
 
-    public int Y { 
-        get {
+    public int Y
+    {
+        get
+        {
             return -X - Z;
         }
     }
 
-    public int Z {
-        get {
+    public int Z
+    {
+        get
+        {
             return z;
         }
     }
 
-    public HexCoordinates(int x, int z) { 
-        this.x =x; this.z = z;
+    public HexCoordinates(int x, int z)
+    {
+        this.x = x; this.z = z;
     }
 
     public static HexCoordinates FromPosition(Vector3 position)
@@ -38,7 +46,8 @@ public struct HexCoordinates {
         int iX = Mathf.RoundToInt(x);
         int iY = Mathf.RoundToInt(y);
         int iZ = Mathf.RoundToInt(-x - y);
-        if (iX + iY + iZ != -1) {
+        if (iX + iY + iZ != -1)
+        {
             Debug.LogWarning("rounding error!");
             /*由于精度的问题造成边界的地方可能计算错误需要矫正*/
             float dX = Mathf.Abs(x - iX);
@@ -57,8 +66,9 @@ public struct HexCoordinates {
         return new HexCoordinates(iX, iZ);
     }
 
-    public static HexCoordinates FromOffsetCoordinates(int x,int z) { 
-        return new HexCoordinates(x - z/2,z);
+    public static HexCoordinates FromOffsetCoordinates(int x, int z)
+    {
+        return new HexCoordinates(x - z / 2, z);
     }
 
     public override string ToString()
@@ -66,13 +76,15 @@ public struct HexCoordinates {
         return $"({X.ToString()},{Y.ToString()},{Z.ToString()})";
     }
 
-    public string ToStringOnSeprateLines() {
-        return X.ToString() + "\n" +Y.ToString() +"\n"+ Z.ToString();
+    public string ToStringOnSeprateLines()
+    {
+        return X.ToString() + "\n" + Y.ToString() + "\n" + Z.ToString();
     }
 
 }
 
-public enum HexDirection { 
+public enum HexDirection
+{
     NE,
     E,
     SE,
@@ -81,12 +93,15 @@ public enum HexDirection {
     NW
 }
 
-public static class HexDirectionExtensions {
-    public static HexDirection Opposite(this HexDirection direction) {
+public static class HexDirectionExtensions
+{
+    public static HexDirection Opposite(this HexDirection direction)
+    {
         return (int)direction < 3 ? (direction + 3) : (direction - 3);
     }
 
-    public static HexDirection Previous(this HexDirection direction) {
+    public static HexDirection Previous(this HexDirection direction)
+    {
         return direction == HexDirection.NE ? HexDirection.NW : (direction - 1);
     }
 
@@ -97,7 +112,8 @@ public static class HexDirectionExtensions {
 
 }
 
-public enum HexEdgeType { 
+public enum HexEdgeType
+{
     Flat,
     Slope,
     Cliff
@@ -110,48 +126,93 @@ public class HexCell : MonoBehaviour
 
     public HexCoordinates coordinates;
 
-    public Color color;
+    public int Index;
 
-    int elevation;
+    Color _color;
+    public Color color
+    {
+        get
+        {
+            return _color;
+        }
+        set
+        {
+            if (_color == value)
+            {
+                return;
+            }
+            _color = value;
+            //Refresh();
+        }
+    }
+
+    public HexGridChunk chunk;
+
+    int elevation = int.MinValue;
 
     public int Elevation
     {
-        get {
+        get
+        {
             return elevation;
         }
-        set {
+        set
+        {
+            if (elevation == value)
+            {
+                return;
+            }
             elevation = value;
             Vector3 position = transform.localPosition;
-            position.y = value* HexMetrics.elevationStep;
+            position.y = value * HexMetrics.elevationStep;
             transform.localPosition = position;
 
             Vector3 uiPosition = uiRect.localPosition;
             uiPosition.z = elevation * -HexMetrics.elevationStep;
             uiRect.localPosition = uiPosition;
+            //Refresh();
         }
     }
 
     [SerializeField]
     HexCell[] neighbors;
 
-    public HexCell GetNeighbor(HexDirection direction) {
+    public HexCell GetNeighbor(HexDirection direction)
+    {
         return neighbors[(int)direction];
     }
 
-    public void SetNeighbor(HexDirection direction,HexCell cell) {
+    public void SetNeighbor(HexDirection direction, HexCell cell)
+    {
         neighbors[(int)direction] = cell;
         cell.neighbors[(int)direction.Opposite()] = this;
     }
 
-    public HexEdgeType GetEdgeType(HexDirection direction){
-        if (neighbors[(int)direction] != null) {
+    public HexEdgeType GetEdgeType(HexDirection direction)
+    {
+        if (neighbors[(int)direction] != null)
+        {
             return HexMetrics.GetEdgeType(elevation, neighbors[(int)direction].elevation);
         }
         return HexEdgeType.Flat;
     }
 
-    public HexEdgeType GetEdgeType(HexCell otherCell) {
-        return HexMetrics.GetEdgeType(elevation,otherCell.elevation);
+    public HexEdgeType GetEdgeType(HexCell otherCell)
+    {
+        return HexMetrics.GetEdgeType(elevation, otherCell.elevation);
+    }
+
+    public void Refresh()
+    {
+        chunk?.Refresh();
+        for (int i = 0; i < neighbors.Length; i++)
+        {
+            HexCell neighbor = neighbors[i];
+            if (neighbor != null && neighbor.chunk != null)
+            {
+                neighbor.chunk.Refresh();
+            }
+        }
     }
 
 

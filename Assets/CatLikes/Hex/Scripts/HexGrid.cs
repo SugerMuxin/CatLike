@@ -29,8 +29,8 @@ public class HexGrid : MonoBehaviour
         HexMetrics.noiseSource = noiseSource;
         meshCollider = gameObject.AddComponent<MeshCollider>();
 
-        cellCountX = chunkCountX * HexMetrics.chunkSizeX;
-        cellCountZ = chunkCountZ * HexMetrics.chunkSizeZ;
+        cellCountX = chunkCountX * HexMetrics.chunkSizeX;  //20
+        cellCountZ = chunkCountZ * HexMetrics.chunkSizeZ;  //15
         CreateChunks();
         CreateCells();
     }
@@ -41,7 +41,6 @@ public class HexGrid : MonoBehaviour
             for (int x = 0; x < chunkCountX; x++) {
                 HexGridChunk chunk = chunks[i++] = Instantiate(chunkPrefab);
                 chunk.transform.SetParent(transform);
-                //chunk.CreateCells();
             }
         }
     }
@@ -73,6 +72,7 @@ public class HexGrid : MonoBehaviour
         position.z = z * HexMetrics.outerRadius * 1.5f;
 
         HexCell cell = cells[i] = Instantiate<HexCell>(cellPrefab);
+        cell.Index = i;
         //cell.transform.SetParent(transform, false);
         cell.transform.localPosition = position;
         cell.coordinates = HexCoordinates.FromOffsetCoordinates(x, z);
@@ -104,12 +104,12 @@ public class HexGrid : MonoBehaviour
         TMP_Text label = Instantiate<TMP_Text>(cellLabelPrefab);
         //label.rectTransform.SetParent(gridCanvas.transform, false);
         label.rectTransform.anchoredPosition = new Vector2(position.x, position.z);
-        label.text = cell.coordinates.ToStringOnSeprateLines();
+        label.text = cell.Index.ToString();//cell.coordinates.ToStringOnSeprateLines();
 
         cell.uiRect = label.rectTransform;
 
         cell.Elevation = 0;
-
+        Debug.LogError(i);
         AddCellToChunk(x, z, cell);
     }
 
@@ -134,9 +134,9 @@ public class HexGrid : MonoBehaviour
     public HexCell GetCell(Vector3 position) { 
         position = transform.InverseTransformPoint(position);
         HexCoordinates coordinates = HexCoordinates.FromPosition(position);
-        int index = coordinates.X + coordinates.Z * chunkCountX + coordinates.Z / 2;
-        Debug.LogError($"index : {index}");
+        int index = coordinates.X + coordinates.Z * cellCountX + coordinates.Z / 2;
         return cells[index];
     }
+
 
 }
