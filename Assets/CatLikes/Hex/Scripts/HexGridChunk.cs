@@ -25,6 +25,7 @@ public class HexGridChunk : MonoBehaviour
         width = HexMetrics.chunkSizeX;
         height = HexMetrics.chunkSizeZ;
         cells = new HexCell[HexMetrics.chunkSizeX * HexMetrics.chunkSizeZ];
+        ShowUI(false);
     }
 
     private void LateUpdate()
@@ -44,6 +45,10 @@ public class HexGridChunk : MonoBehaviour
         cell.chunk = this;
         cell.transform.SetParent(transform, false);
         cell.uiRect.SetParent(gridCanvas.transform, false);
+    }
+
+    public void ShowUI(bool visible) { 
+        gridCanvas.gameObject.SetActive(visible);
     }
 
 }

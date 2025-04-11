@@ -63,6 +63,7 @@
     <Compile Include="Assets\CatLikes\Hex\Scripts\HexMesh.cs" />
     <Compile Include="Assets\CatLikes\Hex\Scripts\HexMapEditor.cs" />
     <Compile Include="Assets\CatLikes\Hex\Scripts\HexCell.cs" />
+    <Compile Include="Assets\CatLikes\Hex\Scripts\HexMapCamera.cs" />
     <Compile Include="Assets\CatLikes\Hex\Scripts\HexGrid.cs" />
     <Compile Include="Assets\CatLikes\Hex\Scripts\HexMetrics.cs" />
     <Compile Include="Assets\CatLikes\Hex\Scripts\HexCoordinatesDrawer.cs" />

@@ -7,18 +7,15 @@ public class HexMesh : MonoBehaviour
 {
     Mesh hexMesh;
     MeshCollider meshCollider;
-    List<Vector3> vertices;
-    List<int> triangles;
-    List<Color> colors;
+    List<Vector3> vertices = new List<Vector3>();
+    List<int> triangles = new List<int>();
+    List<Color> colors = new List<Color>();
 
     private void Awake()
     {
         GetComponent<MeshFilter>().mesh = hexMesh = new Mesh();
         meshCollider = gameObject.AddComponent<MeshCollider>();
         hexMesh.name = "Hex Mesh";
-        vertices = new List<Vector3>();
-        triangles = new List<int>();
-        colors = new List<Color>();
     }
 
 
