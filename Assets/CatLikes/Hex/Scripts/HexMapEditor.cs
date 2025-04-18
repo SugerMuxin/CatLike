@@ -3,11 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+public enum OptionalToggle { 
+    Ignore,Yes,No
+}
+
 public class HexMapEditor : MonoBehaviour
 {
     public ToggleGroup group;
     public Toggle showToggle;
-    public Toggle elevationToggle; 
+    public Toggle elevationToggle;
+    public OptionalToggle riverMode;
     public Color[] colors;
     public HexGrid hexGrid;
     public Slider slider,brushSlider;
@@ -30,6 +36,7 @@ public class HexMapEditor : MonoBehaviour
             SelectColor(GetActiveColorIndex());
             SetElevation(slider.value);
             HandleInput();
+            //SetRiverMode(riverMode);
         }
     }
 
@@ -125,5 +132,11 @@ public class HexMapEditor : MonoBehaviour
     {
         hexGrid.ShowUI(visible);
     }
+
+    public void SetRiverMode(int mode)
+    {
+        riverMode = (OptionalToggle)mode;
+    }
+
 
 }
